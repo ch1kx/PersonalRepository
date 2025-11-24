@@ -1,0 +1,49 @@
+{
+  "id": "90e82327-b279-4d53-9e4e-c8c43bf769ee",
+  "template": "app-nolayers",
+  "versions": {
+    "AbpFramework": "10.0.0",
+    "AbpStudio": "2.0.1",
+    "TargetDotnetFramework": "net10.0"
+  },
+  "modules": {
+    "TodoApp": {
+      "path": "TodoApp.abpmdl"
+    }
+  },
+  "runProfiles": {
+    "Default": {
+      "path": "etc/run-profiles/Default.abprun.json"
+    }
+  },
+  "options": {
+    "httpRequests": {
+      "ignoredUrls": [
+      
+      ]
+    }
+  },
+  "creatingStudioConfiguration": {
+    "template": "app-nolayers",
+    "createdAbpStudioVersion": "2.0.1",
+    "creationTool": "ABP Studio CLI",
+    "multiTenancy": "true",
+    "runInstallLibs": "true",
+    "useLocalReferences": "false",
+    "uiFramework": "mvc",
+    "databaseProvider": "ef",
+    "runDbMigrator": "true",
+    "includeTests": "false",
+    "databaseManagementSystem": "sqlserver",
+    "createInitialMigration": "true",
+    "theme": "leptonx-lite",
+    "themeStyle": "",
+    "themeMenuPlacement": "",
+    "publicWebsite": "",
+    "socialLogin": "true",
+    "sampleCrudPage": "false",
+    "selectedLanguages": ["English", "Arabic", "Chinese (Simplified)", "Chinese (Traditional)", "Czech", "English (United Kingdom)", "Finnish", "French", "German (Germany)", "Hindi ", "Hungarian", "Icelandic", "Italian", "Portuguese (Brazil)", "Romanian (Romania)", "Russian", "Slovak", "Spanish", "Swedish", "Turkish", ],
+    "defaultLanguage": "English",
+    "createCommand": "abp new TodoApp -t app-nolayers --ui-framework mvc --mobile  --database-provider ef --database-management-system sqlserver --theme leptonx-lite --no-tests --without-cms-kit --dont-run-bundling -no-file-management"
+  }
+}
