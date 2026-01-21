@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Cesco's | Sneakers Store</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- NAVIGAZIONE -->
+    <nav class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <div onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+                class="flex items-center gap-2 sm:gap-3 cursor-pointer group select-none">
+                <div
+                    class="relative w-8 h-8 sm:w-10 sm:h-10 bg-black text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-shoe-prints text-sm sm:text-lg transform -rotate-12"></i>
+                    <div
+                        class="absolute -bottom-1 -right-1 bg-indigo-600 w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 border-white">
+                    </div>
+                </div>
+                <div class="flex flex-col leading-none justify-center">
+                    <span
+                        class="text-xl sm:text-2xl font-black text-gray-900 tracking-tighter uppercase italic transform -skew-x-6">Cesco's</span>
+                    <span
+                        class="text-[0.5rem] sm:text-[0.6rem] font-bold text-indigo-600 tracking-[0.2em] uppercase ml-0.5">Sneakers</span>
+                </div>
+            </div>
+
+            <!-- Azioni Utente -->
+            <div class="flex items-center gap-2 md:gap-6">
+
+                <!-- Language Switcher -->
+                <button onclick="toggleLanguage()" title="Change Language"
+                    class="flex items-center justify-center text-gray-700 hover:text-indigo-600 hover:bg-gray-100 border-2 border-gray-300 hover:border-indigo-600 rounded-full transition w-9 h-9 font-bold text-xs">
+                    <span id="current-lang">EN</span>
+                </button>
+
+                <!-- Carrello Icona -->
+                <div class="relative cursor-pointer group" onclick="toggleCart()">
+                    <div class="p-2 rounded-full hover:bg-gray-100 transition">
+                        <i
+                            class="fa-solid fa-cart-shopping text-xl text-gray-600 group-hover:text-indigo-600 transition"></i>
+                    </div>
+                    <span id="cart-count"
+                        class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-white">0</span>
+                </div>
+
+                <!-- Login/Logout Area -->
+                <div id="auth-section">
+                    <button data-i18n="nav_login" onclick="toggleLoginModal()"
+                        class="bg-black text-white px-3 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold hover:bg-gray-800 transition shadow-lg transform hover:-translate-y-0.5">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="bg-indigo-900 text-white py-8 md:py-12 mb-6 md:mb-8 relative overflow-hidden">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 opacity-10 transform translate-x-10 -translate-y-10 hidden md:block">
+            <i class="fa-solid fa-shoe-prints text-9xl"></i>
+        </div>
+
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h1 data-i18n="hero_title"
+                class="text-2xl sm:text-3xl md:text-5xl font-black italic tracking-tight mb-3 md:mb-4">Find your
+                perfect step</h1>
+            <p data-i18n="hero_subtitle"
+                class="text-indigo-200 text-base md:text-lg mb-4 md:mb-6 max-w-2xl mx-auto px-2">The best athletic,
+                casual shoes and boots selected for your unique style.</p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container mx-auto px-4 pb-20">
+
+        <!-- Header Prodotti & Filtri -->
+        <div class="flex justify-between items-center mb-6 md:mb-8">
+            <h2 data-i18n="new_arrivals" class="text-xl md:text-2xl font-bold text-gray-900 italic tracking-tighter">New
+                Arrivals
+            </h2>
+            <button onclick="toggleFilters()"
+                class="flex items-center gap-2 bg-black text-white px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-bold hover:bg-gray-800 transition shadow-lg">
+                <i class="fa-solid fa-sliders"></i>
+                <span data-i18n="filter_btn" class="hidden sm:inline">Filters</span>
+            </button>
+        </div>
+
+        <!-- MODALE FILTRI (Side Panel Sinistro) -->
+        <div id="filter-modal" class="fixed inset-0 z-50 hidden">
+            <div class="absolute inset-0 bg-black bg-opacity-50 transition-opacity backdrop-blur-sm"
+                onclick="toggleFilters()">
+            </div>
+            <div class="absolute left-0 top-0 h-full w-full max-w-[85vw] sm:max-w-xs bg-white shadow-2xl transform transition-transform duration-300 flex flex-col -translate-x-full"
+                id="filter-drawer">
+                <div class="p-6 border-b flex justify-between items-center bg-white">
+                    <h2 class="text-xl font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span data-i18n="filter_title">Filters</span>
+                    </h2>
+                    <button onclick="toggleFilters()"
+                        class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+                        <i class="fa-solid fa-times text-lg"></i>
+                    </button>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-6 space-y-8">
+
+                    <!-- Sorting -->
+                    <div>
+                        <h3 data-i18n="sort_title"
+                            class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Sort By</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="radio" name="sort" value="default" checked onchange="setSort('default')"
+                                    class="peer sr-only">
+                                <div
+                                    class="w-5 h-5 border-2 border-gray-300 rounded-full peer-checked:border-black peer-checked:bg-black relative flex items-center justify-center">
+                                    <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span data-i18n="sort_default"
+                                    class="text-gray-600 font-medium group-hover:text-black transition">Recommended</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="radio" name="sort" value="asc" onchange="setSort('asc')"
+                                    class="peer sr-only">
+                                <div
+                                    class="w-5 h-5 border-2 border-gray-300 rounded-full peer-checked:border-black peer-checked:bg-black relative flex items-center justify-center">
+                                    <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span data-i18n="sort_asc"
+                                    class="text-gray-600 font-medium group-hover:text-black transition">Price: Low to
+                                    High</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="radio" name="sort" value="desc" onchange="setSort('desc')"
+                                    class="peer sr-only">
+                                <div
+                                    class="w-5 h-5 border-2 border-gray-300 rounded-full peer-checked:border-black peer-checked:bg-black relative flex items-center justify-center">
+                                    <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span data-i18n="sort_desc"
+                                    class="text-gray-600 font-medium group-hover:text-black transition">Price: High to
+                                    Low</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Categories -->
+                    <div>
+                        <h3 data-i18n="filter_cat"
+                            class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Category</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setCategory('all')" data-i18n="cat_all"
+                                class="cat-btn active px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-black text-white hover:bg-gray-800 transition w-full text-left"
+                                data-val="all">All</button>
+                            <button onclick="setCategory('running')" data-i18n="cat_running"
+                                class="cat-btn px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition w-full text-left"
+                                data-val="running">Running</button>
+                            <button onclick="setCategory('lifestyle')" data-i18n="cat_lifestyle"
+                                class="cat-btn px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition w-full text-left"
+                                data-val="lifestyle">Lifestyle</button>
+                            <button onclick="setCategory('basket')" data-i18n="cat_basket"
+                                class="cat-btn px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition w-full text-left"
+                                data-val="basket">Basketball</button>
+                            <button onclick="setCategory('boots')" data-i18n="cat_boots"
+                                class="cat-btn px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition w-full text-left"
+                                data-val="boots">Boots</button>
+                        </div>
+                    </div>
+
+                    <!-- Gender -->
+                    <div>
+                        <h3 data-i18n="filter_gen"
+                            class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Gender</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="setGender('all')" data-i18n="gen_all"
+                                class="gender-btn active px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-black text-white hover:bg-gray-800 transition text-center"
+                                data-val="all">All</button>
+                            <button onclick="setGender('men')" data-i18n="gen_men"
+                                class="gender-btn px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition text-center"
+                                data-val="men">Men</button>
+                            <button onclick="setGender('women')" data-i18n="gen_women"
+                                class="gender-btn px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition text-center"
+                                data-val="women">Women</button>
+                            <button onclick="setGender('unisex')" data-i18n="gen_unisex"
+                                class="gender-btn px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition text-center"
+                                data-val="unisex">Unisex</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="p-6 border-t bg-gray-50">
+                    <button onclick="resetFilters()" data-i18n="reset_filters"
+                        class="w-full py-3 text-sm font-bold text-gray-500 hover:text-black transition border-2 border-gray-200 rounded-xl hover:border-black uppercase tracking-wider">
+                        Reset Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Griglia Prodotti -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <!-- JS Injection -->
+        </div>
+
+        <!-- Messaggio nessun risultato -->
+        <div id="no-results" class="hidden text-center py-10">
+            <div class="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-magnifying-glass text-3xl text-gray-400"></i>
+            </div>
+            <p data-i18n="no_results" class="text-gray-500 text-lg font-medium">No products match your search.</p>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-400 py-10 mt-auto">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-6">
+            <!-- Spacer for centering alignment -->
+            <div class="hidden md:block flex-1"></div>
+
+            <p data-i18n="footer_rights" class="text-sm">&copy; 2026 Cesco's. All rights reserved.</p>
+
+            <div class="flex gap-4 flex-1 justify-center md:justify-end">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALE LOGIN -->
+    <div id="login-modal"
+        class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm transition-opacity">
+        <div
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 md:p-8 relative transform scale-100 transition-transform">
+            <button onclick="toggleLoginModal()"
+                class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <div class="text-center mb-8">
+                <div
+                    class="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fa-solid fa-user text-2xl"></i>
+                </div>
+                <h2 data-i18n="login_title" class="text-2xl font-bold text-gray-900">Welcome Back</h2>
+                <p data-i18n="login_sub" class="text-gray-500 text-sm mt-1">Please enter your details to sign in</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-xs font-bold uppercase tracking-wide mb-2">Email</label>
+                    <input type="email" required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-black transition"
+                        placeholder="user@example.com">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-xs font-bold uppercase tracking-wide mb-2">Password</label>
+                    <input type="password" required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-black transition"
+                        placeholder="********">
+                </div>
+                <button type="submit" data-i18n="login_btn"
+                    class="w-full bg-black text-white font-bold py-4 rounded-lg hover:bg-gray-800 transition shadow-lg transform active:scale-95">Login</button>
+            </form>
+            <p data-i18n="login_demo" class="mt-6 text-center text-xs text-gray-400 bg-gray-50 py-2 rounded">Demo
+                account: use any email/password.</p>
+        </div>
+    </div>
+
+    <!-- MODALE CARRELLO (Side Panel) -->
+    <div id="cart-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-50 transition-opacity backdrop-blur-sm" onclick="toggleCart()">
+        </div>
+        <div
+            class="absolute right-0 top-0 h-full w-full max-w-full sm:max-w-md bg-white shadow-2xl transform transition-transform duration-300 flex flex-col">
+            <div class="p-6 border-b flex justify-between items-center bg-white">
+                <h2 class="text-xl font-bold flex items-center gap-3">
+                    <span data-i18n="cart_title">Your Cart</span>
+                    <span id="cart-count-header" class="bg-black text-white text-xs px-2 py-1 rounded-full">0</span>
+                </h2>
+                <button onclick="toggleCart()"
+                    class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+                    <i class="fa-solid fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6">
+                <!-- JS Injection -->
+            </div>
+
+            <div class="p-6 border-t bg-gray-50">
+                <div class="flex justify-between items-end mb-6">
+                    <span class="text-gray-500 font-medium" data-i18n="cart_total">Total:</span>
+                    <span id="cart-total" class="text-3xl font-bold text-gray-900">€0.00</span>
+                </div>
+                <button onclick="openCheckout()" id="checkout-btn"
+                    class="w-full bg-black text-white font-bold py-4 rounded-xl hover:bg-gray-800 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+                    disabled>
+                    <span data-i18n="cart_checkout">Proceed to Checkout</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE CHECKOUT -->
+    <div id="checkout-modal"
+        class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl p-4 md:p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckout()"
+                class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition">
+                <i class="fa-solid fa-times"></i>
+            </button>
+
+            <h2 data-i18n="checkout_title" class="text-xl font-bold mb-5 text-gray-900 flex items-center gap-2">
+                <i class="fa-solid fa-lock text-green-600"></i> Secure Payment
+            </h2>
+
+            <form id="payment-form" onsubmit="processPayment(event)">
+                <h3 data-i18n="ship_info"
+                    class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 border-b pb-2">Shipping Info
+                </h3>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <input type="text" data-ph="ph_name" placeholder="First Name" required
+                        class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg focus:outline-none focus:border-black transition text-sm">
+                    <input type="text" data-ph="ph_surname" placeholder="Last Name" required
+                        class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg focus:outline-none focus:border-black transition text-sm">
+                </div>
+                <input type="text" data-ph="ph_addr" placeholder="Address" required
+                    class="w-full bg-gray-50 border border-gray-200 p-2.5 rounded-lg mb-4 focus:outline-none focus:border-black transition text-sm">
+
+                <h3 data-i18n="pay_method"
+                    class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 border-b pb-2 mt-5">Payment
+                    Method</h3>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4">
+                    <div class="flex items-center gap-3 mb-3 opacity-70">
+                        <i class="fa-brands fa-cc-visa text-2xl"></i>
+                        <i class="fa-brands fa-cc-mastercard text-2xl"></i>
+                    </div>
+                    <input type="text" id="payment-card" placeholder="0000 0000 0000 0000" maxlength="19" required
+                        class="w-full bg-white border border-gray-200 p-2.5 rounded-lg mb-2 focus:outline-none focus:border-black transition text-sm">
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="payment-date" placeholder="MM/YY" maxlength="5" required
+                            class="bg-white border border-gray-200 p-2.5 rounded-lg focus:outline-none focus:border-black transition text-sm">
+                        <input type="text" id="payment-cvc" placeholder="CVC" maxlength="3" required
+                            class="bg-white border border-gray-200 p-2.5 rounded-lg focus:outline-none focus:border-black transition text-sm">
+                    </div>
+                </div>
+
+                <div class="flex justify-between font-bold text-lg mb-6 items-center">
+                    <span data-i18n="pay_total" class="text-gray-600">Total to pay:</span>
+                    <span id="checkout-total" class="text-xl text-black">€0.00</span>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-black text-white font-bold py-3 rounded-xl hover:bg-gray-800 transition shadow-lg flex justify-center items-center gap-2 transform active:scale-95"
+                    data-i18n="pay_now">
+                    Pay Now
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast"
+        class="fixed bottom-6 right-6 bg-gray-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-[calc(100%_+_2rem)] transition-transform duration-300 flex items-center gap-4 z-[70] border border-gray-700">
+        <div id="toast-icon-container"
+            class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 id="toast-title" class="font-bold text-sm">Success</h4>
+            <span id="toast-message" class="text-xs text-gray-300">Operation completed</span>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>
